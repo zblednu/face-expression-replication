@@ -1,0 +1,23 @@
+paper is about classifying face expressions
+
+dataset: www.kaggle.com/datasets/ryersonmultimedialab/ryerson-emotion-database
+
+process of emotinal recogintioon:
+  - find face
+  - extract features
+  - classify emotion
+
+
+  labels:
+Anger, Disgust,
+Fear, Happy, Sad, and Surprise
+
+dataset was collected of people speaking different languages on camera
+
+
+
+
+
+two different ways to input image in models used: raw and hog
+
+cnn output is classified either with mlp or svm
