@@ -1,31 +1,36 @@
 import os
-import cv2
 import torch
+import glob
 from torch.utils.data import Dataset
+from torchvision.io import read_image
 
 class RyersonEmotionDataset(Dataset):
-    def __init__(self, path):
-        label_map = {
-            'happy': 0,
-            'sad': 1,
-            'angry': 2,
-            'fear': 3,
-            'surpise': 4,
-            'disgust': 5,
+    def __init__(self, root_dir):
+        self.root_dir = root_dir
+        self.length = 0
+        self.dataset = {}
+        self.label_map = {
+            'ha': 0,
+            'sa': 1,
+            'an': 2,
+            'fe': 3,
+            'su': 4,
+            'di': 5,
         }
-        self.images = [];
-        for root, _, files in os.walk(path):
-        for file in files:
-            if file.endswith('.avi'):
-                vid_paths.append(os.path.join(root, file))
+        for _, _, files in os.walk(root_dir):
+            for file in files:
+                if file.endswith('.jpg'):
+                    self.length += 1
 
     def __len__(self):
-        return len(self.images)
+        return self.length
 
     def __getitem__(self, idx):
-        image = self.images[idx]
-        #some cv2 function to read the image
-        #take last part to get label
-        face_normalized = face_resized.astype('float32') / 255.0
-        image_as_tensor = torch.unsqueeze(torch.tensor(face_normalized), 0) 
-        return (self.images[idx], self.labels[idx])
+        if idx not in self.dataset:
+            img_path = glob.glob(f'{idx}??.jpg', root_dir=self.root_dir)[0]
+            label = self.label_map[img_path[-6:-4]]
+            image = read_image(os.path.join(self.root_dir, img_path))
+            image = image.float() / 255.0
+            self.dataset[idx] = (image, label)
+        return self.dataset[idx]
+

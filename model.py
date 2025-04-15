@@ -22,7 +22,7 @@ class CNN_MLP(nn.Module):
             nn.Conv2d(32, 64, kernel_size=3, padding=1),
             nn.ReLU(),
             nn.BatchNorm2d(64),
-            nn.MaxPool2d(kernel_size=4, stride=4), # MaxPooling2D (4,4)
+            nn.MaxPool2d(kernel_size=4, stride=4), 
             nn.Dropout(0.25),
             nn.Conv2d(64, 64, kernel_size=3, padding=1),
             nn.ReLU(),
@@ -35,12 +35,12 @@ class CNN_MLP(nn.Module):
             nn.Flatten()
         )
         self.mlp = nn.Sequential(
-            nn.Linear(128 * 4 * 4, 128), # input layer
+            nn.Linear(128 * 4 * 4, 128), 
             nn.ReLU(),
             nn.BatchNorm1d(128),
             nn.Dropout(0.25),
-            nn.Linear(128, num_classes), # output layer
-            nn.Softmax(dim=1)
+            nn.Linear(128, num_classes),
+            # nn.Softmax(dim=1)
         )
 
     def forward(self, x):
@@ -56,7 +56,7 @@ optimizer = optim.RMSprop(model.parameters(), lr=learning_rate) # RMSprop
 
 
 # --- DataLoader ---
-dataset = RyersonEmotionDataset('dataset')
+dataset = RyersonEmotionDataset('processed')
 
 train_size = int(0.8 * len(dataset))
 test_size = len(dataset) - train_size

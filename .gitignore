@@ -1,4 +1,4 @@
 .venv
-dataset*
-preprocessed_examples
+raw
+processed
 __pycache__/
